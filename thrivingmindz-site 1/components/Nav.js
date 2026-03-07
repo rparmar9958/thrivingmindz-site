@@ -1,0 +1,80 @@
+'use client';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+export default function Nav({ onRegister }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', handler);
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
+  const linkStyle = { color: '#555', textDecoration: 'none', fontSize: 14, fontWeight: 700, transition: 'color 0.3s' };
+
+  return (
+    <>
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '0 32px',
+        transition: 'all 0.4s',
+        background: scrolled ? 'rgba(255,251,245,0.97)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : 'none',
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.04)' : 'none',
+      }}>
+        <div style={{ maxWidth: 1260, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+            <div style={{
+              width: 42, height: 42, borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'linear-gradient(135deg, #FF6B9D, #9B72CF)', color: 'white',
+              fontFamily: 'var(--serif)', fontWeight: 800, fontSize: 18, transform: 'rotate(-3deg)',
+            }}>T</div>
+            <span style={{ fontFamily: 'var(--serif)', fontSize: 22, fontWeight: 700, color: '#1a1a2e' }}>
+              Thriving<span style={{ color: '#FF6B9D' }}>Mindz</span>
+            </span>
+          </Link>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 24 }} className="hide-mobile">
+            <Link href="/programs" style={linkStyle}>Programs</Link>
+            <Link href="/events" style={linkStyle}>Events</Link>
+            <Link href="/blog" style={linkStyle}>Blog</Link>
+            <Link href="/get-involved" style={linkStyle}>Get Involved</Link>
+            <Link href="/contact" style={linkStyle}>Contact</Link>
+            <button className="btn btn-pink btn-sm" onClick={onRegister}>Join Us 💗</button>
+          </div>
+
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="show-mobile" style={{
+            display: 'none', background: 'none', border: 'none', fontSize: 28, cursor: 'pointer', padding: 4,
+          }}>
+            {mobileOpen ? '✕' : '☰'}
+          </button>
+        </div>
+      </nav>
+
+      {mobileOpen && (
+        <div style={{
+          position: 'fixed', top: 72, left: 0, right: 0, bottom: 0, background: 'rgba(255,251,245,0.98)',
+          zIndex: 99, padding: 32, display: 'flex', flexDirection: 'column', gap: 20, backdropFilter: 'blur(20px)',
+        }}>
+          {[
+            { href: '/programs', label: 'Programs 💗' },
+            { href: '/events', label: 'Events 🌈' },
+            { href: '/blog', label: 'Blog 📖' },
+            { href: '/get-involved', label: 'Get Involved ✨' },
+            { href: '/contact', label: 'Contact 💙' },
+          ].map(link => (
+            <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
+              style={{ fontFamily: 'var(--serif)', fontSize: 24, fontWeight: 700, color: '#1a1a2e', textDecoration: 'none' }}>
+              {link.label}
+            </Link>
+          ))}
+          <button className="btn btn-pink btn-lg" style={{ marginTop: 16 }} onClick={() => { setMobileOpen(false); onRegister?.(); }}>
+            Join Us →
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
