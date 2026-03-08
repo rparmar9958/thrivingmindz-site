@@ -19,10 +19,10 @@ export default function Nav({ onRegister }) {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '0 32px',
         transition: 'all 0.4s',
-        background: scrolled ? 'rgba(255,251,245,0.97)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : 'none',
-        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.04)' : 'none',
+        background: scrolled ? 'rgba(255,251,245,0.97)' : 'rgba(255,251,245,0.95)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(0,0,0,0.05)',
+        boxShadow: scrolled ? '0 2px 20px rgba(0,0,0,0.04)' : '0 1px 8px rgba(0,0,0,0.02)',
       }}>
         <div style={{ maxWidth: 1260, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>

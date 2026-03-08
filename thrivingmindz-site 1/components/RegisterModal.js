@@ -20,6 +20,7 @@ export default function RegisterModal({ show, onClose }) {
     { id: 'parent', emoji: '👨‍👩‍👧', label: "I'm a Parent / Guardian", desc: 'Connect your child to free programs', color: '#4ECDC4', hoverBg: '#F0FBF9' },
     { id: 'professional', emoji: '🧠', label: "I'm a Professional", desc: 'Volunteer, paid roles, advisory positions', color: '#9B72CF', hoverBg: '#F8F0FF' },
     { id: 'school', emoji: '🏫', label: "I'm a School Admin", desc: 'Free workshops & programs for your school', color: '#FFD93D', hoverBg: '#FFFBE0' },
+    { id: 'donor', emoji: '💝', label: "I'd like to Donate / Sponsor", desc: 'Fund free programs for teens in need', color: '#FF7F6B', hoverBg: '#FFF0ED' },
   ];
 
   return (
@@ -181,6 +182,40 @@ export default function RegisterModal({ show, onClose }) {
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
               <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
               <button className="btn btn-yellow" style={{ flex: 1, justifyContent: 'center', color: '#1a1a2e' }} onClick={() => alert('Registration submitted! We will contact you soon. 💛')}>Submit →</button>
+            </div>
+          </>
+        )}
+
+        {step === 3 && type === 'donor' && (
+          <>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 24, fontWeight: 700, marginBottom: 4 }}>Thank you for your generosity 💝</h2>
+            <p style={{ color: '#888', fontSize: 14, marginBottom: 20 }}>Every dollar directly funds free programs for teens.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <select className="select" onChange={e => setForm({...form, donorType: e.target.value})}>
+                <option value="">I am a...</option>
+                <option>Individual donor</option>
+                <option>Corporate sponsor</option>
+                <option>Foundation / Grant maker</option>
+                <option>Community organization</option>
+                <option>Faith-based organization</option>
+              </select>
+              <select className="select" onChange={e => setForm({...form, interest: e.target.value})}>
+                <option value="">I'm interested in...</option>
+                <option>One-time donation</option>
+                <option>Monthly recurring donation</option>
+                <option>Sponsoring a specific program</option>
+                <option>Event sponsorship</option>
+                <option>In-kind donation (supplies, space, etc.)</option>
+                <option>Planned giving / legacy gift</option>
+              </select>
+              <textarea className="textarea" placeholder="Anything else you'd like us to know? (optional)" style={{ minHeight: 80 }} onChange={e => setForm({...form, notes: e.target.value})} />
+              <div style={{ padding: 16, borderRadius: 16, background: '#FFF0ED', fontSize: 13, color: '#555', lineHeight: 1.6 }}>
+                💗 ThrivingMindz is a 501(c)(3) nonprofit (EIN: 84-1820560). All donations are tax-deductible to the full extent of the law.
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
+              <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
+              <button className="btn" style={{ flex: 1, justifyContent: 'center', background: 'linear-gradient(135deg, #FF7F6B, #FF6B9D)', color: 'white' }} onClick={() => alert('Thank you! We will reach out to discuss how you can make a difference. 💝')}>Submit →</button>
             </div>
           </>
         )}

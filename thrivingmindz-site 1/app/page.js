@@ -13,13 +13,16 @@ export default function Home() {
     <>
       <Nav onRegister={() => setShowReg(true)} />
 
+      {/* Spacer for fixed nav */}
+      <div style={{ height: 72 }} />
+
       {/* Crisis Bar */}
-      <div style={{ padding: '12px 0', background: '#FF7F6B', textAlign: 'center', color: 'white', fontSize: 14, fontWeight: 700 }}>
-        If you need help now → Call or text <a href="tel:988" style={{ color: 'white', textDecoration: 'underline' }}>988</a> · Text HOME to <a href="sms:741741" style={{ color: 'white', textDecoration: 'underline' }}>741741</a> · You are never alone 💛
+      <div style={{ padding: '14px 20px', background: '#D94400', textAlign: 'center', color: 'white', fontSize: 14, fontWeight: 800, letterSpacing: 0.3 }}>
+        ⚠️ If you need help now → Call or text <a href="tel:988" style={{ color: '#FFD93D', textDecoration: 'underline', fontWeight: 900 }}>988</a> · Text HOME to <a href="sms:741741" style={{ color: '#FFD93D', textDecoration: 'underline', fontWeight: 900 }}>741741</a> · You are never alone 💛
       </div>
 
       {/* ═══ HERO ═══ */}
-      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #FFF5F7 0%, #F0E6FF 30%, #E0F7FA 60%, #FFF8E1 100%)', padding: '100px 0 60px' }}>
+      <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #FFF5F7 0%, #F0E6FF 30%, #E0F7FA 60%, #FFF8E1 100%)', padding: '80px 0 60px' }}>
         <div style={{ position: 'absolute', top: -100, right: -80, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,157,0.15), transparent 70%)', animation: 'float 8s ease-in-out infinite' }} />
         <div style={{ position: 'absolute', bottom: -60, left: -100, width: 450, height: 450, borderRadius: '50%', background: 'radial-gradient(circle, rgba(78,205,196,0.12), transparent 70%)', animation: 'float2 10s ease-in-out infinite' }} />
         <div style={{ position: 'absolute', top: '30%', left: '40%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(155,114,207,0.08), transparent 70%)', animation: 'float 12s ease-in-out infinite' }} />
@@ -215,12 +218,13 @@ export default function Home() {
             <span className="section-tag" style={{ background: 'rgba(255,179,208,0.2)', color: '#FFB3D0' }}>Join the Community</span>
             <h2 style={{ color: 'white' }}>How can we help you? 🤝</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 16 }}>
             {[
               { emoji: '🎓', title: 'Students & Teens', items: ['Free therapy & counseling','Support groups with peers','Art therapy & meditation','Thrive Ambassador program'], color: '#FF6B9D', bg: 'rgba(255,107,157,0.1)', border: 'rgba(255,107,157,0.2)' },
               { emoji: '👨‍👩‍👧', title: 'Parents & Families', items: ['Understand teen mental health','Connect your child to programs','Parent workshops','Free family resources'], color: '#4ECDC4', bg: 'rgba(78,205,196,0.1)', border: 'rgba(78,205,196,0.2)' },
               { emoji: '🧠', title: 'Professionals', items: ['Volunteer & give back','Paid jobs via ThrivingCare','CE credit opportunities','Professional networking'], color: '#9B72CF', bg: 'rgba(155,114,207,0.1)', border: 'rgba(155,114,207,0.2)' },
               { emoji: '🏫', title: 'Schools', items: ['Free on-site workshops','Student support groups','Staff mental health training','Staffing solutions'], color: '#FFD93D', bg: 'rgba(255,217,61,0.1)', border: 'rgba(255,217,61,0.2)' },
+              { emoji: '💝', title: 'Donors & Sponsors', items: ['100% funds go to programs','Tax-deductible (501c3)','Impact reports & transparency','Named sponsorship opportunities'], color: '#FF7F6B', bg: 'rgba(255,127,107,0.1)', border: 'rgba(255,127,107,0.2)' },
             ].map(aud => (
               <div key={aud.title} onClick={() => setShowReg(true)} style={{
                 borderRadius: 24, padding: '32px 24px', cursor: 'pointer', background: aud.bg, border: `1px solid ${aud.border}`,
