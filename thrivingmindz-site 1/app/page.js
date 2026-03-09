@@ -13,14 +13,6 @@ export default function Home() {
     <>
       <Nav onRegister={() => setShowReg(true)} />
 
-      {/* Spacer for fixed nav */}
-      <div style={{ height: 72 }} />
-
-      {/* Crisis Bar */}
-      <div style={{ padding: '14px 20px', background: '#D94400', textAlign: 'center', color: 'white', fontSize: 14, fontWeight: 800, letterSpacing: 0.3 }}>
-        ⚠️ If you need help now → Call or text <a href="tel:988" style={{ color: '#FFD93D', textDecoration: 'underline', fontWeight: 900 }}>988</a> · Text HOME to <a href="sms:741741" style={{ color: '#FFD93D', textDecoration: 'underline', fontWeight: 900 }}>741741</a> · You are never alone 💛
-      </div>
-
       {/* ═══ HERO ═══ */}
       <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', overflow: 'hidden', background: 'linear-gradient(135deg, #FFF5F7 0%, #F0E6FF 30%, #E0F7FA 60%, #FFF8E1 100%)', padding: '80px 0 60px' }}>
         <div style={{ position: 'absolute', top: -100, right: -80, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,157,0.15), transparent 70%)', animation: 'float 8s ease-in-out infinite' }} />
