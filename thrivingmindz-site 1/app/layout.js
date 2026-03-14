@@ -1,6 +1,5 @@
 import Script from 'next/script';
 import './globals.css';
-import Script from 'next/script';
 export const metadata = {
   title: {
     default: 'ThrivingMindz | Free Teen Mental Health Support in Frisco & DFW',
