@@ -1,5 +1,6 @@
+import Script from 'next/script';
 import './globals.css';
-
+import Script from 'next/script';
 export const metadata = {
   title: {
     default: 'ThrivingMindz | Free Teen Mental Health Support in Frisco & DFW',
@@ -88,7 +89,16 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+  <Script src="https://www.googletagmanager.com/gtag/js?id=G-T0MX9V6P6P" strategy="afterInteractive" />
+  <Script id="google-analytics" strategy="afterInteractive">
+    {`window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T0MX9V6P6P');`}
+  </Script>
+  {children}
+</body>
     </html>
   );
 }
