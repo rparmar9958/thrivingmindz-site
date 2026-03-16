@@ -5,15 +5,61 @@ const DISTRICTS = ['Frisco ISD','Prosper ISD','McKinney ISD','Allen ISD','Plano 
 const INTERESTS = ['Anxiety/Stress','Depression','Bullying','Social Media Impact','Self-Esteem','Academic Pressure','Art Therapy','Meditation','Peer Support','LGBTQ+ Support'];
 const DISCIPLINES = ['LCSW','LPC','LMFT','Psychologist','School Psychologist','Psychiatrist','PMHNP','BCBA','Counseling Intern','Other'];
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://exemplary-learning-production-3217.up.railway.app';
+
 export default function RegisterModal({ show, onClose }) {
   const [step, setStep] = useState(1);
   const [type, setType] = useState('');
   const [form, setForm] = useState({});
   const [interests, setInterests] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   if (!show) return null;
 
   const toggleInterest = (tag) => setInterests(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      const body = {
+        type,
+        name: form.name || '',
+        email: form.email || '',
+        phone: form.phone || null,
+        district: form.district || null,
+        school: form.school || null,
+        grade: form.grade || null,
+        interests: interests.length > 0 ? interests : null,
+        child_age: form.childAge || null,
+        concern: form.concern || null,
+        discipline: form.discipline || null,
+        license_num: form.license || null,
+        specialty: form.specialty || null,
+        pro_interest: type === 'professional' ? form.interest || null : null,
+        role: form.role || null,
+        school_interest: type === 'school' ? form.interest || null : null,
+        donor_type: form.donorType || null,
+        donor_interest: type === 'donor' ? form.interest || null : null,
+        notes: form.notes || null,
+      };
+      const res = await fetch(`${API_URL}/api/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      alert('Connection error. Please try again.');
+    }
+    setSubmitting(false);
+  };
+
+  const closeAndReset = () => { onClose(); setStep(1); setType(''); setForm({}); setInterests([]); setSubmitted(false); };
 
   const types = [
     { id: 'student', emoji: '🎓', label: "I'm a Student / Teen", desc: 'Free therapy, support groups, art therapy & more', color: '#FF6B9D', hoverBg: '#FFF5F8' },
@@ -24,16 +70,26 @@ export default function RegisterModal({ show, onClose }) {
   ];
 
   return (
-    <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) { onClose(); setStep(1); setType(''); } }}>
+    <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) closeAndReset(); }}>
       <div className="modal">
-        <button onClick={() => { onClose(); setStep(1); setType(''); }} style={{ position: 'absolute', top: 16, right: 20, background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>✕</button>
+        <button onClick={closeAndReset} style={{ position: 'absolute', top: 16, right: 20, background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#888' }}>✕</button>
+
+        {/* Success Screen */}
+        {submitted && (
+          <div style={{ textAlign: 'center', padding: '20px 0' }}>
+            <div style={{ fontSize: 60, marginBottom: 16 }}>🎉</div>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 700, marginBottom: 8 }}>Welcome to ThrivingMindz!</h2>
+            <p style={{ color: '#666', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>Thank you for registering! Our team will reach out to you within 24-48 hours to get you connected with the right programs.</p>
+            <button className="btn btn-pink" onClick={closeAndReset} style={{ justifyContent: 'center', width: '100%' }}>Done 💗</button>
+          </div>
+        )}
 
         {/* Progress */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
+        {!submitted && <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
           {[1,2,3].map(s => (
             <div key={s} style={{ flex: 1, height: 4, borderRadius: 2, background: step >= s ? 'linear-gradient(90deg, #FF6B9D, #9B72CF)' : '#eee', transition: 'all 0.3s' }} />
           ))}
-        </div>
+        </div>}
 
         {/* STEP 1: Choose type */}
         {step === 1 && (
@@ -103,7 +159,7 @@ export default function RegisterModal({ show, onClose }) {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
               <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
-              <button className="btn btn-pink" style={{ flex: 1, justifyContent: 'center' }} onClick={() => alert('Registration submitted! We will contact you soon. 💗')}>Submit →</button>
+              <button className="btn btn-pink" style={{ flex: 1, justifyContent: 'center' }} onClick={handleSubmit} disabled={submitting}>{ submitting ? "Submitting..." : "Submit →" }</button>
             </div>
           </>
         )}
@@ -128,7 +184,7 @@ export default function RegisterModal({ show, onClose }) {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
               <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
-              <button className="btn btn-green" style={{ flex: 1, justifyContent: 'center' }} onClick={() => alert('Registration submitted! We will contact you soon. 💚')}>Submit →</button>
+              <button className="btn btn-green" style={{ flex: 1, justifyContent: 'center' }} onClick={handleSubmit} disabled={submitting}>{ submitting ? "Submitting..." : "Submit →" }</button>
             </div>
           </>
         )}
@@ -155,7 +211,7 @@ export default function RegisterModal({ show, onClose }) {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
               <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
-              <button className="btn btn-purple" style={{ flex: 1, justifyContent: 'center' }} onClick={() => alert('Registration submitted! We will contact you soon. 💜')}>Submit →</button>
+              <button className="btn btn-purple" style={{ flex: 1, justifyContent: 'center' }} onClick={handleSubmit} disabled={submitting}>{ submitting ? "Submitting..." : "Submit →" }</button>
             </div>
           </>
         )}
@@ -181,7 +237,7 @@ export default function RegisterModal({ show, onClose }) {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
               <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
-              <button className="btn btn-yellow" style={{ flex: 1, justifyContent: 'center', color: '#1a1a2e' }} onClick={() => alert('Registration submitted! We will contact you soon. 💛')}>Submit →</button>
+              <button className="btn btn-yellow" style={{ flex: 1, justifyContent: 'center', color: '#1a1a2e' }} onClick={handleSubmit} disabled={submitting}>{ submitting ? "Submitting..." : "Submit →" }</button>
             </div>
           </>
         )}
@@ -215,7 +271,7 @@ export default function RegisterModal({ show, onClose }) {
             </div>
             <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
               <button className="btn btn-white btn-sm" onClick={() => setStep(2)}>← Back</button>
-              <button className="btn" style={{ flex: 1, justifyContent: 'center', background: 'linear-gradient(135deg, #FF7F6B, #FF6B9D)', color: 'white' }} onClick={() => alert('Thank you! We will reach out to discuss how you can make a difference. 💝')}>Submit →</button>
+              <button className="btn" style={{ flex: 1, justifyContent: 'center', background: 'linear-gradient(135deg, #FF7F6B, #FF6B9D)', color: 'white' }} onClick={handleSubmit} disabled={submitting}>{ submitting ? "Submitting..." : "Submit →" }</button>
             </div>
           </>
         )}
