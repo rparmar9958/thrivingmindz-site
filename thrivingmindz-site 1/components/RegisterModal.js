@@ -48,7 +48,8 @@ export default function RegisterModal({ show, onClose }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      const data = await res.json();
+       if (res.ok) {
+         const data = await res.json();
         setSubmitted(data.message || 'Registration received!');
       } else {
         alert('Something went wrong. Please try again.');
