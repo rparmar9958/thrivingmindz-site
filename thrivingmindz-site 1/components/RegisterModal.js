@@ -48,8 +48,8 @@ export default function RegisterModal({ show, onClose }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      if (res.ok) {
-        setSubmitted(true);
+      const data = await res.json();
+        setSubmitted(data.message || 'Registration received!');
       } else {
         alert('Something went wrong. Please try again.');
       }
@@ -79,8 +79,8 @@ export default function RegisterModal({ show, onClose }) {
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
             <div style={{ fontSize: 60, marginBottom: 16 }}>🎉</div>
             <h2 style={{ fontFamily: 'var(--serif)', fontSize: 28, fontWeight: 700, marginBottom: 8 }}>Welcome to ThrivingMindz!</h2>
-            <p style={{ color: '#666', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>Thank you for registering! Our team will reach out to you within 24-48 hours to get you connected with the right programs.</p>
-            <button className="btn btn-pink" onClick={closeAndReset} style={{ justifyContent: 'center', width: '100%' }}>Done 💗</button>
+            <p style={{ color: '#666', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>{submitted}</p>
+          <button className="btn btn-pink" onClick={closeAndReset} style={{ justifyContent: 'center', width: '100%' }}>Done 💗</button>
           </div>
         )}
 
