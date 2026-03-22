@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -8,6 +8,18 @@ import { IMAGES } from '../content/images';
 
 export default function Home() {
   const [showReg, setShowReg] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    const dismissed = sessionStorage.getItem('welcome_dismissed');
+    if (!dismissed) {
+      const timer = setTimeout(() => setShowWelcome(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const dismissWelcome = () => { setShowWelcome(false); sessionStorage.setItem('welcome_dismissed', '1'); };
+  const welcomeToRegister = () => { setShowWelcome(false); sessionStorage.setItem('welcome_dismissed', '1'); setShowReg(true); };
 
   return (
     <>
@@ -284,6 +296,19 @@ export default function Home() {
       </section>
 
       <Footer />
+      {/* Welcome Popup */}
+      {showWelcome && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 9998, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, backdropFilter: 'blur(4px)' }} onClick={e => { if (e.target === e.currentTarget) dismissWelcome(); }}>
+          <div style={{ background: 'white', borderRadius: 28, padding: '40px 32px', maxWidth: 420, width: '100%', textAlign: 'center', boxShadow: '0 20px 60px rgba(0,0,0,0.15)', animation: 'slideUp 0.4s ease-out' }}>
+            <div style={{ fontSize: 50, marginBottom: 12 }}>👋</div>
+            <h2 style={{ fontFamily: 'var(--serif)', fontSize: 26, fontWeight: 700, marginBottom: 8, color: '#1a1a2e' }}>Welcome to ThrivingMindz!</h2>
+            <p style={{ color: '#666', fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>Free mental health support for teens in Frisco & DFW. Join 100+ families already connected to our programs.</p>
+            <button className="btn btn-pink" onClick={welcomeToRegister} style={{ width: '100%', justifyContent: 'center', marginBottom: 12, fontSize: 16 }}>Join Now — It&apos;s Free! 🌈</button>
+            <button onClick={dismissWelcome} style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', fontSize: 14, padding: 8 }}>I&apos;ll just browse for now</button>
+          </div>
+        </div>
+      )}
+
       <RegisterModal show={showReg} onClose={() => setShowReg(false)} />
     </>
   );
